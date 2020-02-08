@@ -1,10 +1,17 @@
 {
-  "Notebook": {
-    "Export to modules": "/export",
-    "Convert to html": "/export2html",
-    "Show doc": "/showdoc",
-    "Test functions": "/test",
-    "Core functions": "/core",
-    "Command line functions": "/cli"
+  "Getting started": {
+    "Overview": "/"
+  },
+  "NLP": {
+    "Template Notebook": "/nlp.fasttext"
+  },
+  "Forecasting": {
+    "Data Preparation": "/forecasting.dataprep"
+  },
+  "Connectors": {
+    "GCP Connectors": "/connector.gcp"
+  },
+  "ML Models": {
+    "CatBoost": "/model.catboost"
   }
 }
