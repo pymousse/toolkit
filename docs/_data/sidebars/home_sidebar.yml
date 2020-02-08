@@ -26,13 +26,13 @@ entries:
   - folderitems:
     - output: web,pdf
       title: GCP Connectors
-      url: /connector.gcp
+      url: /connectors.gcp
     output: web
     title: Connectors
   - folderitems:
     - output: web,pdf
       title: CatBoost
-      url: /model.catboost
+      url: /models.catboost
     output: web
     title: ML Models
   output: web
