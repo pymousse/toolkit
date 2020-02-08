@@ -7,24 +7,33 @@ entries:
 - folders:
   - folderitems:
     - output: web,pdf
-      title: Export to modules
-      url: /export
-    - output: web,pdf
-      title: Convert to html
-      url: /export2html
-    - output: web,pdf
-      title: Show doc
-      url: /showdoc
-    - output: web,pdf
-      title: Test functions
-      url: /test
-    - output: web,pdf
-      title: Core functions
-      url: /core
-    - output: web,pdf
-      title: Command line functions
-      url: /cli
+      title: Overview
+      url: /
     output: web
-    title: Notebook
+    title: Getting started
+  - folderitems:
+    - output: web,pdf
+      title: Template Notebook
+      url: /nlp.fasttext
+    output: web
+    title: NLP
+  - folderitems:
+    - output: web,pdf
+      title: Data Preparation
+      url: /forecasting.dataprep
+    output: web
+    title: Forecasting
+  - folderitems:
+    - output: web,pdf
+      title: GCP Connectors
+      url: /connector.gcp
+    output: web
+    title: Connectors
+  - folderitems:
+    - output: web,pdf
+      title: CatBoost
+      url: /model.catboost
+    output: web
+    title: ML Models
   output: web
   title: Sidebar

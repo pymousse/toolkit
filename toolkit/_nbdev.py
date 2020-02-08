@@ -2,9 +2,10 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"GCSConnector": "00_connectors.gcp.ipynb",
+         "BQConnector": "00_connectors.gcp.ipynb"}
 
-modules = []
+modules = ["connectors/gcp.py"]
 
 doc_url = "https://pymousse.github.io/toolkit/"
 
