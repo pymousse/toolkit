@@ -9,9 +9,9 @@
     "Data Preparation": "/forecasting.dataprep"
   },
   "Connectors": {
-    "GCP Connectors": "/connector.gcp"
+    "GCP Connectors": "/connectors.gcp"
   },
   "ML Models": {
-    "CatBoost": "/model.catboost"
+    "CatBoost": "/models.catboost"
   }
 }
