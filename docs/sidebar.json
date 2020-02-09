@@ -3,7 +3,8 @@
     "Overview": "/"
   },
   "NLP": {
-    "NBSVM": "/nlp.nbsvm"
+    "NBSVM": "/nlp.nbsvm",
+    "FastText": "/nlp.fasttext"
   },
   "Forecasting": {
     "Data Preparation": "/forecasting.dataprep"
