@@ -1,0 +1,2 @@
+This is where you will store the keys, passwords, or encrypted files required by your project.   
+The content folder should ever not be committed (and thus should be in your .gitignore) or be encrypted
