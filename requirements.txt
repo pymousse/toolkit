@@ -1,0 +1,12 @@
+fbprophet==0.5
+gluonts==0.4.2
+google-api-python-client==1.7.11
+google-cloud==0.34.0
+google-cloud-storage==1.24.1
+hyperopt==0.2.3
+nbdev==0.2.9
+pandas-gbq==0.13.0
+pandas-profiling==2.3.0
+pipdeptree==0.13.2
+pycausalimpact==0.0.15
+xgboost==0.90

@@ -3,6 +3,11 @@
 __all__ = ['GCSConnector', 'BQConnector']
 
 # Cell
+import json
+from io import BytesIO
+import pandas as pd
+from google.cloud import storage
+
 class GCSConnector:
     """
     Object: GCSConnector(Object)
@@ -87,6 +92,10 @@ class GCSConnector:
 
 
 # Cell
+import pandas_gbq
+from google.cloud import bigquery
+from google.oauth2 import service_account
+
 class BQConnector:
     """
     Object: BQConnector(Object)
