@@ -1,4 +1,4 @@
-# Welcome to tookit
+# Welcome to Toolkit
 > Useful piece of codes about NLP, forecasting, connectors.
 
 
@@ -24,6 +24,11 @@ To run tests:
 
 ## NLP
 
+Link to the [`NBSVM`](/tutorial#say_hello) notebook
+
+Link to the [`FastText`](/tutorial#say_hello) notebook.  
+In this notebook you will see how to use fasttext with UMPAP and HDBSCAN in order to find clusters inside your data.
+
 ## Connectors
 
 Link to the [`BQConnector`](/tutorial#say_hello) Connector
@@ -31,3 +36,7 @@ Link to the [`BQConnector`](/tutorial#say_hello) Connector
 Link to the [`GCSConnector`](/tutorial#say_hello) Connector
 
 ## Forecasting
+
+## ML Models
+
+Link to the [`CatBoost`](/tutorial#say_hello) notebook

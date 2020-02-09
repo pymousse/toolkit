@@ -22,6 +22,886 @@ summary: "API details."
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://github.com/catboost/tutorials/blob/master/python_tutorial.ipynb">https://github.com/catboost/tutorials/blob/master/python_tutorial.ipynb</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://www.kaggle.com/c/avito-demand-prediction/discussion/59880">https://www.kaggle.com/c/avito-demand-prediction/discussion/59880</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+
+
+<span class="kn">from</span> <span class="nn">catboost</span> <span class="k">import</span> <span class="n">CatBoostRegressor</span><span class="p">,</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">cv</span>
+
+<span class="kn">import</span> <span class="nn">hyperopt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-loading">Data loading<a class="anchor-link" href="#Data-loading">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/sales_train.csv&quot;</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>date_block_num</th>
+      <th>shop_id</th>
+      <th>item_id</th>
+      <th>item_price</th>
+      <th>item_cnt_day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1892944</td>
+      <td>27.08.2014</td>
+      <td>19</td>
+      <td>56</td>
+      <td>9055</td>
+      <td>99.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>1123531</td>
+      <td>01.11.2013</td>
+      <td>10</td>
+      <td>50</td>
+      <td>1416</td>
+      <td>1499.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>654351</td>
+      <td>12.07.2013</td>
+      <td>6</td>
+      <td>30</td>
+      <td>2720</td>
+      <td>749.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>712450</td>
+      <td>26.07.2013</td>
+      <td>6</td>
+      <td>46</td>
+      <td>6433</td>
+      <td>449.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>2104279</td>
+      <td>18.10.2014</td>
+      <td>21</td>
+      <td>46</td>
+      <td>17717</td>
+      <td>799.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">]</span>
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">34</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date_block_num</th>
+      <th>shop_id</th>
+      <th>item_id</th>
+      <th>city_code</th>
+      <th>item_category_id</th>
+      <th>type_code</th>
+      <th>subtype_code</th>
+      <th>item_cnt_month_lag_1</th>
+      <th>item_cnt_month_lag_2</th>
+      <th>item_cnt_month_lag_3</th>
+      <th>item_cnt_month_lag_6</th>
+      <th>item_cnt_month_lag_12</th>
+      <th>date_avg_item_cnt_lag_1</th>
+      <th>date_item_avg_item_cnt_lag_1</th>
+      <th>date_item_avg_item_cnt_lag_2</th>
+      <th>date_item_avg_item_cnt_lag_3</th>
+      <th>date_item_avg_item_cnt_lag_6</th>
+      <th>date_item_avg_item_cnt_lag_12</th>
+      <th>date_shop_avg_item_cnt_lag_1</th>
+      <th>date_shop_avg_item_cnt_lag_2</th>
+      <th>date_shop_avg_item_cnt_lag_3</th>
+      <th>date_shop_avg_item_cnt_lag_6</th>
+      <th>date_shop_avg_item_cnt_lag_12</th>
+      <th>date_cat_avg_item_cnt_lag_1</th>
+      <th>date_shop_cat_avg_item_cnt_lag_1</th>
+      <th>date_city_avg_item_cnt_lag_1</th>
+      <th>date_item_city_avg_item_cnt_lag_1</th>
+      <th>delta_price_lag</th>
+      <th>month</th>
+      <th>days</th>
+      <th>item_shop_last_sale</th>
+      <th>item_last_sale</th>
+      <th>item_shop_first_sale</th>
+      <th>item_first_sale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12</td>
+      <td>2</td>
+      <td>27</td>
+      <td>0</td>
+      <td>19</td>
+      <td>5</td>
+      <td>10</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.4114</td>
+      <td>0.0870</td>
+      <td>0.04443</td>
+      <td>0.1305</td>
+      <td>0.06525</td>
+      <td>0.1555</td>
+      <td>0.1481</td>
+      <td>0.10065</td>
+      <td>0.08905</td>
+      <td>0.096</td>
+      <td>0.1412</td>
+      <td>1.0820</td>
+      <td>0.95560</td>
+      <td>0.1481</td>
+      <td>0.0</td>
+      <td>-0.2827</td>
+      <td>0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>1</td>
+      <td>12</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12</td>
+      <td>2</td>
+      <td>30</td>
+      <td>0</td>
+      <td>40</td>
+      <td>11</td>
+      <td>4</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.4114</td>
+      <td>1.0210</td>
+      <td>1.02200</td>
+      <td>0.5220</td>
+      <td>0.89100</td>
+      <td>0.0000</td>
+      <td>0.1481</td>
+      <td>0.10065</td>
+      <td>0.08905</td>
+      <td>0.096</td>
+      <td>0.0000</td>
+      <td>0.2915</td>
+      <td>0.04623</td>
+      <td>0.1481</td>
+      <td>0.0</td>
+      <td>-0.4834</td>
+      <td>0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>2</td>
+      <td>31</td>
+      <td>0</td>
+      <td>37</td>
+      <td>11</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.4114</td>
+      <td>0.5435</td>
+      <td>0.60000</td>
+      <td>0.5435</td>
+      <td>0.30440</td>
+      <td>0.0000</td>
+      <td>0.1481</td>
+      <td>0.10065</td>
+      <td>0.08905</td>
+      <td>0.096</td>
+      <td>0.0000</td>
+      <td>0.2328</td>
+      <td>0.05945</td>
+      <td>0.1481</td>
+      <td>0.0</td>
+      <td>-0.1375</td>
+      <td>0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12</td>
+      <td>2</td>
+      <td>32</td>
+      <td>0</td>
+      <td>40</td>
+      <td>11</td>
+      <td>4</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.4114</td>
+      <td>1.9350</td>
+      <td>1.80000</td>
+      <td>1.2610</td>
+      <td>1.89200</td>
+      <td>5.3800</td>
+      <td>0.1481</td>
+      <td>0.10065</td>
+      <td>0.08905</td>
+      <td>0.096</td>
+      <td>0.1412</td>
+      <td>0.2915</td>
+      <td>0.04623</td>
+      <td>0.1481</td>
+      <td>0.0</td>
+      <td>-0.4072</td>
+      <td>0</td>
+      <td>31</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>12</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>12</td>
+      <td>2</td>
+      <td>33</td>
+      <td>0</td>
+      <td>37</td>
+      <td>11</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.4114</td>
+      <td>0.9130</td>
+      <td>0.33330</td>
+      <td>0.7173</td>
+      <td>1.00000</td>
+      <td>1.3550</td>
+      <td>0.1481</td>
+      <td>0.10065</td>
+      <td>0.08905</td>
+      <td>0.096</td>
+      <td>0.1412</td>
+      <td>0.2328</td>
+      <td>0.05945</td>
+      <td>0.1481</td>
+      <td>1.0</td>
+      <td>-0.2255</td>
+      <td>0</td>
+      <td>31</td>
+      <td>1</td>
+      <td>1</td>
+      <td>12</td>
+      <td>12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">data</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-training">Model training<a class="anchor-link" href="#Model-training">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">is_use_GPU</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">is_use_GPU</span><span class="p">:</span>
+    <span class="n">task_type</span> <span class="o">=</span> <span class="s2">&quot;GPU&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">task_type</span> <span class="o">=</span> <span class="s2">&quot;CPU&quot;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Hyperopt">Hyperopt<a class="anchor-link" href="#Hyperopt">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hyperopt_objective</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">CatBoostRegressor</span><span class="p">(</span>
+        <span class="n">task_type</span> <span class="o">=</span> <span class="n">task_type</span><span class="p">,</span>
+        <span class="n">l2_leaf_reg</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;l2_leaf_reg&#39;</span><span class="p">]),</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">],</span>
+        <span class="n">depth</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]),</span>
+        
+        <span class="n">iterations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="c1"># go to 500</span>
+        <span class="n">eval_metric</span><span class="o">=</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+        <span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;Silent&#39;</span>
+    <span class="p">)</span>
+    
+    <span class="n">cv_data</span> <span class="o">=</span> <span class="n">cv</span><span class="p">(</span>
+        <span class="n">Pool</span><span class="p">(</span><span class="n">X_train</span>
+                <span class="p">,</span> <span class="n">Y_train</span>
+                <span class="p">,</span> <span class="n">cat_features</span> <span class="o">=</span> <span class="n">categorical_features_indices</span>
+            <span class="p">)</span>
+        <span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">best_rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-RMSE-mean&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">best_rmse</span> <span class="c1"># as hyperopt minimises</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">do_tuning</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">do_tuning</span><span class="p">:</span>
+    <span class="n">params_space</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;l2_leaf_reg&#39;</span><span class="p">:</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">hp</span><span class="o">.</span><span class="n">qloguniform</span><span class="p">(</span><span class="s1">&#39;l2_leaf_reg&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">hp</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">5e-1</span><span class="p">),</span>
+        <span class="c1">#&#39;depth&#39; : hyperopt.hp.uniform(&#39;depth&#39;, 5, 15)</span>
+        <span class="s1">&#39;depth&#39;</span> <span class="p">:</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">hp</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+    <span class="p">}</span>
+
+    <span class="n">trials</span> <span class="o">=</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">Trials</span><span class="p">()</span>
+
+    <span class="n">best</span> <span class="o">=</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">fmin</span><span class="p">(</span>
+        <span class="n">hyperopt_objective</span><span class="p">,</span>
+        <span class="n">space</span><span class="o">=</span><span class="n">params_space</span><span class="p">,</span>
+        <span class="n">algo</span><span class="o">=</span><span class="n">hyperopt</span><span class="o">.</span><span class="n">tpe</span><span class="o">.</span><span class="n">suggest</span><span class="p">,</span>
+        <span class="n">max_evals</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="c1"># go to 50</span>
+        <span class="n">trials</span><span class="o">=</span><span class="n">trials</span><span class="p">,</span>
+        <span class="n">rstate</span><span class="o">=</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Model-parametrization">Model parametrization<a class="anchor-link" href="#Model-parametrization">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;task type:&quot;</span><span class="p">,</span><span class="n">task_type</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">CatBoostRegressor</span><span class="p">(</span>
+    <span class="n">task_type</span> <span class="o">=</span> <span class="n">task_type</span>
+    <span class="p">,</span><span class="n">loss_function</span><span class="o">=</span><span class="s1">&#39;RMSE&#39;</span>
+    <span class="p">,</span><span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span>
+    <span class="p">,</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;Info&#39;</span>
+    
+    <span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">1000</span> <span class="c1"># go to 500</span>
+    <span class="p">,</span><span class="n">depth</span><span class="o">=</span><span class="mi">7</span>
+    <span class="p">,</span><span class="n">l2_leaf_reg</span><span class="o">=</span><span class="mf">1.0</span>
+    <span class="p">,</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.36</span>
+    
+    <span class="p">,</span><span class="n">thread_count</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="p">,</span><span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">50</span>
+<span class="p">)</span>
+
+<span class="n">train_pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">X_train</span>
+                  <span class="p">,</span> <span class="n">Y_train</span>
+                  <span class="c1">#, cat_features=categorical_features_indices</span>
+                 <span class="p">)</span>
+
+<span class="n">model_fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_pool</span>
+                  <span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span> 
+                  <span class="p">,</span> <span class="n">use_best_model</span><span class="o">=</span><span class="kc">True</span>
+                  <span class="p">,</span> <span class="n">eval_set</span><span class="o">=</span><span class="p">[(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">Y_valid</span><span class="p">)])</span>
+
+<span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>task type: GPU
+0:	learn: 1.0635187	test: 1.0494160	best: 1.0494160 (0)	total: 133ms	remaining: 2m 13s
+1:	learn: 0.9808246	test: 0.9990526	best: 0.9990526 (1)	total: 204ms	remaining: 1m 41s
+2:	learn: 0.9351607	test: 0.9680294	best: 0.9680294 (2)	total: 277ms	remaining: 1m 31s
+3:	learn: 0.9115793	test: 0.9561274	best: 0.9561274 (3)	total: 343ms	remaining: 1m 25s
+4:	learn: 0.8987176	test: 0.9474366	best: 0.9474366 (4)	total: 424ms	remaining: 1m 24s
+5:	learn: 0.8904159	test: 0.9441049	best: 0.9441049 (5)	total: 498ms	remaining: 1m 22s
+6:	learn: 0.8845093	test: 0.9405823	best: 0.9405823 (6)	total: 579ms	remaining: 1m 22s
+7:	learn: 0.8799512	test: 0.9388863	best: 0.9388863 (7)	total: 659ms	remaining: 1m 21s
+8:	learn: 0.8771009	test: 0.9373010	best: 0.9373010 (8)	total: 740ms	remaining: 1m 21s
+9:	learn: 0.8742543	test: 0.9356766	best: 0.9356766 (9)	total: 818ms	remaining: 1m 20s
+10:	learn: 0.8728465	test: 0.9331059	best: 0.9331059 (10)	total: 895ms	remaining: 1m 20s
+11:	learn: 0.8668628	test: 0.9230562	best: 0.9230562 (11)	total: 970ms	remaining: 1m 19s
+12:	learn: 0.8649485	test: 0.9227412	best: 0.9227412 (12)	total: 1.04s	remaining: 1m 19s
+13:	learn: 0.8626694	test: 0.9232386	best: 0.9227412 (12)	total: 1.12s	remaining: 1m 18s
+14:	learn: 0.8616457	test: 0.9221361	best: 0.9221361 (14)	total: 1.19s	remaining: 1m 18s
+15:	learn: 0.8596541	test: 0.9221897	best: 0.9221361 (14)	total: 1.26s	remaining: 1m 17s
+16:	learn: 0.8583115	test: 0.9251706	best: 0.9221361 (14)	total: 1.34s	remaining: 1m 17s
+17:	learn: 0.8566897	test: 0.9247757	best: 0.9221361 (14)	total: 1.41s	remaining: 1m 16s
+18:	learn: 0.8541397	test: 0.9221978	best: 0.9221361 (14)	total: 1.48s	remaining: 1m 16s
+19:	learn: 0.8525591	test: 0.9216906	best: 0.9216906 (19)	total: 1.56s	remaining: 1m 16s
+20:	learn: 0.8511094	test: 0.9218438	best: 0.9216906 (19)	total: 1.64s	remaining: 1m 16s
+21:	learn: 0.8502345	test: 0.9207696	best: 0.9207696 (21)	total: 1.72s	remaining: 1m 16s
+22:	learn: 0.8486732	test: 0.9206212	best: 0.9206212 (22)	total: 1.79s	remaining: 1m 16s
+23:	learn: 0.8466883	test: 0.9184681	best: 0.9184681 (23)	total: 1.88s	remaining: 1m 16s
+24:	learn: 0.8457516	test: 0.9174807	best: 0.9174807 (24)	total: 1.95s	remaining: 1m 16s
+25:	learn: 0.8451044	test: 0.9171454	best: 0.9171454 (25)	total: 2.02s	remaining: 1m 15s
+26:	learn: 0.8441719	test: 0.9168043	best: 0.9168043 (26)	total: 2.09s	remaining: 1m 15s
+27:	learn: 0.8428709	test: 0.9183214	best: 0.9168043 (26)	total: 2.16s	remaining: 1m 15s
+28:	learn: 0.8415693	test: 0.9180533	best: 0.9168043 (26)	total: 2.24s	remaining: 1m 14s
+29:	learn: 0.8410878	test: 0.9175965	best: 0.9168043 (26)	total: 2.32s	remaining: 1m 14s
+30:	learn: 0.8401697	test: 0.9167336	best: 0.9167336 (30)	total: 2.39s	remaining: 1m 14s
+31:	learn: 0.8389529	test: 0.9167681	best: 0.9167336 (30)	total: 2.46s	remaining: 1m 14s
+32:	learn: 0.8380070	test: 0.9169093	best: 0.9167336 (30)	total: 2.53s	remaining: 1m 14s
+33:	learn: 0.8375378	test: 0.9168292	best: 0.9167336 (30)	total: 2.6s	remaining: 1m 13s
+34:	learn: 0.8368391	test: 0.9172570	best: 0.9167336 (30)	total: 2.67s	remaining: 1m 13s
+35:	learn: 0.8362999	test: 0.9168413	best: 0.9167336 (30)	total: 2.76s	remaining: 1m 13s
+36:	learn: 0.8351952	test: 0.9177300	best: 0.9167336 (30)	total: 2.83s	remaining: 1m 13s
+37:	learn: 0.8348308	test: 0.9185146	best: 0.9167336 (30)	total: 2.91s	remaining: 1m 13s
+38:	learn: 0.8342555	test: 0.9183851	best: 0.9167336 (30)	total: 2.99s	remaining: 1m 13s
+39:	learn: 0.8338824	test: 0.9184341	best: 0.9167336 (30)	total: 3.06s	remaining: 1m 13s
+40:	learn: 0.8333315	test: 0.9185553	best: 0.9167336 (30)	total: 3.13s	remaining: 1m 13s
+41:	learn: 0.8329071	test: 0.9183590	best: 0.9167336 (30)	total: 3.19s	remaining: 1m 12s
+42:	learn: 0.8326842	test: 0.9203398	best: 0.9167336 (30)	total: 3.26s	remaining: 1m 12s
+43:	learn: 0.8321547	test: 0.9201981	best: 0.9167336 (30)	total: 3.33s	remaining: 1m 12s
+44:	learn: 0.8312594	test: 0.9203373	best: 0.9167336 (30)	total: 3.4s	remaining: 1m 12s
+45:	learn: 0.8308627	test: 0.9198652	best: 0.9167336 (30)	total: 3.48s	remaining: 1m 12s
+46:	learn: 0.8304000	test: 0.9199143	best: 0.9167336 (30)	total: 3.56s	remaining: 1m 12s
+47:	learn: 0.8292433	test: 0.9184988	best: 0.9167336 (30)	total: 3.63s	remaining: 1m 12s
+48:	learn: 0.8275767	test: 0.9147953	best: 0.9147953 (48)	total: 3.71s	remaining: 1m 11s
+49:	learn: 0.8272600	test: 0.9144970	best: 0.9144970 (49)	total: 3.77s	remaining: 1m 11s
+50:	learn: 0.8243299	test: 0.9124870	best: 0.9124870 (50)	total: 3.86s	remaining: 1m 11s
+51:	learn: 0.8239672	test: 0.9123485	best: 0.9123485 (51)	total: 3.92s	remaining: 1m 11s
+52:	learn: 0.8233225	test: 0.9136757	best: 0.9123485 (51)	total: 4s	remaining: 1m 11s
+53:	learn: 0.8227590	test: 0.9136972	best: 0.9123485 (51)	total: 4.07s	remaining: 1m 11s
+54:	learn: 0.8222621	test: 0.9136617	best: 0.9123485 (51)	total: 4.15s	remaining: 1m 11s
+55:	learn: 0.8218872	test: 0.9134614	best: 0.9123485 (51)	total: 4.22s	remaining: 1m 11s
+56:	learn: 0.8212231	test: 0.9120821	best: 0.9120821 (56)	total: 4.29s	remaining: 1m 10s
+57:	learn: 0.8208579	test: 0.9125118	best: 0.9120821 (56)	total: 4.36s	remaining: 1m 10s
+58:	learn: 0.8202703	test: 0.9125064	best: 0.9120821 (56)	total: 4.43s	remaining: 1m 10s
+59:	learn: 0.8198686	test: 0.9118820	best: 0.9118820 (59)	total: 4.5s	remaining: 1m 10s
+60:	learn: 0.8194725	test: 0.9121274	best: 0.9118820 (59)	total: 4.58s	remaining: 1m 10s
+61:	learn: 0.8192057	test: 0.9121698	best: 0.9118820 (59)	total: 4.65s	remaining: 1m 10s
+62:	learn: 0.8189478	test: 0.9122124	best: 0.9118820 (59)	total: 4.71s	remaining: 1m 10s
+63:	learn: 0.8187062	test: 0.9123039	best: 0.9118820 (59)	total: 4.8s	remaining: 1m 10s
+64:	learn: 0.8175997	test: 0.9111744	best: 0.9111744 (64)	total: 4.87s	remaining: 1m 10s
+65:	learn: 0.8174127	test: 0.9113051	best: 0.9111744 (64)	total: 4.94s	remaining: 1m 9s
+66:	learn: 0.8167486	test: 0.9112832	best: 0.9111744 (64)	total: 5.02s	remaining: 1m 9s
+67:	learn: 0.8144416	test: 0.9150917	best: 0.9111744 (64)	total: 5.1s	remaining: 1m 9s
+68:	learn: 0.8142405	test: 0.9153059	best: 0.9111744 (64)	total: 5.18s	remaining: 1m 9s
+69:	learn: 0.8139372	test: 0.9154566	best: 0.9111744 (64)	total: 5.24s	remaining: 1m 9s
+70:	learn: 0.8136304	test: 0.9150032	best: 0.9111744 (64)	total: 5.33s	remaining: 1m 9s
+71:	learn: 0.8133599	test: 0.9147812	best: 0.9111744 (64)	total: 5.39s	remaining: 1m 9s
+72:	learn: 0.8119606	test: 0.9128335	best: 0.9111744 (64)	total: 5.47s	remaining: 1m 9s
+73:	learn: 0.8116957	test: 0.9127562	best: 0.9111744 (64)	total: 5.54s	remaining: 1m 9s
+74:	learn: 0.8113628	test: 0.9128658	best: 0.9111744 (64)	total: 5.62s	remaining: 1m 9s
+75:	learn: 0.8110737	test: 0.9133638	best: 0.9111744 (64)	total: 5.7s	remaining: 1m 9s
+76:	learn: 0.8103188	test: 0.9129477	best: 0.9111744 (64)	total: 5.78s	remaining: 1m 9s
+77:	learn: 0.8098433	test: 0.9126359	best: 0.9111744 (64)	total: 5.85s	remaining: 1m 9s
+78:	learn: 0.8089731	test: 0.9118863	best: 0.9111744 (64)	total: 5.92s	remaining: 1m 9s
+79:	learn: 0.8086257	test: 0.9121479	best: 0.9111744 (64)	total: 6s	remaining: 1m 8s
+80:	learn: 0.8083081	test: 0.9121345	best: 0.9111744 (64)	total: 6.07s	remaining: 1m 8s
+81:	learn: 0.8064476	test: 0.9112245	best: 0.9111744 (64)	total: 6.14s	remaining: 1m 8s
+82:	learn: 0.8061472	test: 0.9113706	best: 0.9111744 (64)	total: 6.21s	remaining: 1m 8s
+83:	learn: 0.8059434	test: 0.9113726	best: 0.9111744 (64)	total: 6.28s	remaining: 1m 8s
+84:	learn: 0.8055617	test: 0.9116575	best: 0.9111744 (64)	total: 6.36s	remaining: 1m 8s
+85:	learn: 0.8053966	test: 0.9117473	best: 0.9111744 (64)	total: 6.42s	remaining: 1m 8s
+86:	learn: 0.8052025	test: 0.9117343	best: 0.9111744 (64)	total: 6.48s	remaining: 1m 8s
+87:	learn: 0.8050670	test: 0.9117720	best: 0.9111744 (64)	total: 6.56s	remaining: 1m 7s
+88:	learn: 0.8048847	test: 0.9117098	best: 0.9111744 (64)	total: 6.64s	remaining: 1m 7s
+89:	learn: 0.8045044	test: 0.9116875	best: 0.9111744 (64)	total: 6.71s	remaining: 1m 7s
+90:	learn: 0.8043386	test: 0.9117172	best: 0.9111744 (64)	total: 6.78s	remaining: 1m 7s
+91:	learn: 0.8041857	test: 0.9123895	best: 0.9111744 (64)	total: 6.84s	remaining: 1m 7s
+92:	learn: 0.8040109	test: 0.9135360	best: 0.9111744 (64)	total: 6.92s	remaining: 1m 7s
+93:	learn: 0.8030781	test: 0.9131136	best: 0.9111744 (64)	total: 6.98s	remaining: 1m 7s
+94:	learn: 0.8028629	test: 0.9132639	best: 0.9111744 (64)	total: 7.05s	remaining: 1m 7s
+95:	learn: 0.8026979	test: 0.9134100	best: 0.9111744 (64)	total: 7.11s	remaining: 1m 6s
+96:	learn: 0.8024345	test: 0.9138630	best: 0.9111744 (64)	total: 7.19s	remaining: 1m 6s
+97:	learn: 0.8022806	test: 0.9136134	best: 0.9111744 (64)	total: 7.26s	remaining: 1m 6s
+98:	learn: 0.8013758	test: 0.9121109	best: 0.9111744 (64)	total: 7.34s	remaining: 1m 6s
+99:	learn: 0.8011781	test: 0.9121633	best: 0.9111744 (64)	total: 7.4s	remaining: 1m 6s
+100:	learn: 0.8009983	test: 0.9119475	best: 0.9111744 (64)	total: 7.47s	remaining: 1m 6s
+101:	learn: 0.8007753	test: 0.9135814	best: 0.9111744 (64)	total: 7.54s	remaining: 1m 6s
+102:	learn: 0.8002699	test: 0.9132776	best: 0.9111744 (64)	total: 7.61s	remaining: 1m 6s
+103:	learn: 0.8000729	test: 0.9132601	best: 0.9111744 (64)	total: 7.68s	remaining: 1m 6s
+104:	learn: 0.7999300	test: 0.9132153	best: 0.9111744 (64)	total: 7.74s	remaining: 1m 5s
+105:	learn: 0.7998176	test: 0.9132563	best: 0.9111744 (64)	total: 7.81s	remaining: 1m 5s
+106:	learn: 0.7994833	test: 0.9128320	best: 0.9111744 (64)	total: 7.89s	remaining: 1m 5s
+107:	learn: 0.7990910	test: 0.9128166	best: 0.9111744 (64)	total: 7.96s	remaining: 1m 5s
+108:	learn: 0.7989339	test: 0.9127158	best: 0.9111744 (64)	total: 8.03s	remaining: 1m 5s
+109:	learn: 0.7986178	test: 0.9127770	best: 0.9111744 (64)	total: 8.1s	remaining: 1m 5s
+110:	learn: 0.7984616	test: 0.9125854	best: 0.9111744 (64)	total: 8.17s	remaining: 1m 5s
+111:	learn: 0.7983014	test: 0.9125260	best: 0.9111744 (64)	total: 8.24s	remaining: 1m 5s
+112:	learn: 0.7980445	test: 0.9122910	best: 0.9111744 (64)	total: 8.32s	remaining: 1m 5s
+113:	learn: 0.7978969	test: 0.9122807	best: 0.9111744 (64)	total: 8.4s	remaining: 1m 5s
+114:	learn: 0.7975855	test: 0.9122155	best: 0.9111744 (64)	total: 8.47s	remaining: 1m 5s
+bestTest = 0.9111744189
+bestIteration = 64
+Shrink model to first 65 iterations.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>51.490495920181274</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>model = CatBoostRegressor(
+    task_type = task_type
+    ,loss_function='RMSE'
+    ,random_seed=42
+    ,logging_level='Info'
+    ,iterations=300
+    ,depth=5
+    ,thread_count=-1
+    ,early_stopping_rounds=50
+)
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">feature_importances</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">get_feature_importance</span><span class="p">(</span><span class="n">train_pool</span><span class="p">)</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span>
+<span class="k">for</span> <span class="n">score</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>item_cnt_month_lag_1: 24.096973014999396
+item_first_sale: 12.006346081698476
+item_category_id: 11.571586104046894
+date_item_avg_item_cnt_lag_1: 9.347904226652117
+date_shop_cat_avg_item_cnt_lag_1: 4.792384156230253
+month: 4.374915441564244
+subtype_code: 4.234835590645327
+item_cnt_month_lag_3: 3.9195514752137726
+item_cnt_month_lag_2: 3.157629308588907
+date_shop_avg_item_cnt_lag_1: 2.4298752525641234
+delta_price_lag: 2.344605276021997
+date_cat_avg_item_cnt_lag_1: 1.8257605079068258
+item_id: 1.789004696570604
+date_avg_item_cnt_lag_1: 1.7318593722736364
+date_item_city_avg_item_cnt_lag_1: 1.7284243808433235
+item_cnt_month_lag_6: 1.5795793795733843
+type_code: 1.3516868759138587
+date_item_avg_item_cnt_lag_2: 1.1456964671201675
+date_block_num: 1.1236301086839122
+item_shop_first_sale: 1.0011627440861472
+shop_id: 0.9794114035607472
+days: 0.8941072326132936
+city_code: 0.5249867892289879
+item_cnt_month_lag_12: 0.48348609097249273
+date_item_avg_item_cnt_lag_3: 0.4461188839180178
+date_city_avg_item_cnt_lag_1: 0.23656733032937033
+item_shop_last_sale: 0.22038310846598108
+date_item_avg_item_cnt_lag_6: 0.21213924827706782
+date_shop_avg_item_cnt_lag_12: 0.16671297835075843
+date_shop_avg_item_cnt_lag_2: 0.15176986230977238
+date_item_avg_item_cnt_lag_12: 0.04867251520890456
+date_shop_avg_item_cnt_lag_3: 0.045842758203332314
+date_shop_avg_item_cnt_lag_6: 0.03639133736393366
+item_last_sale: 0.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Predict-on-TEST">Predict on TEST<a class="anchor-link" href="#Predict-on-TEST">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Y_pred_train</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">Y_pred_valid</span> <span class="o">=</span> <span class="n">model_fit</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>done
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 </div>
  
 
