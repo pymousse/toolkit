@@ -13,9 +13,6 @@ entries:
     title: Getting started
   - folderitems:
     - output: web,pdf
-      title: FastText
-      url: /nlp.fasttext
-    - output: web,pdf
       title: NBSVM
       url: /nlp.nbsvm
     output: web
