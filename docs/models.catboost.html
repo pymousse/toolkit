@@ -116,48 +116,48 @@ summary: "API details."
   </thead>
   <tbody>
     <tr>
-      <td>1892944</td>
-      <td>27.08.2014</td>
-      <td>19</td>
-      <td>56</td>
-      <td>9055</td>
-      <td>99.0</td>
+      <td>0</td>
+      <td>02.01.2013</td>
+      <td>0</td>
+      <td>59</td>
+      <td>22154</td>
+      <td>999.00</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>1123531</td>
-      <td>01.11.2013</td>
-      <td>10</td>
-      <td>50</td>
-      <td>1416</td>
-      <td>1499.0</td>
+      <td>1</td>
+      <td>03.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>654351</td>
-      <td>12.07.2013</td>
-      <td>6</td>
-      <td>30</td>
-      <td>2720</td>
-      <td>749.0</td>
+      <td>2</td>
+      <td>05.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>06.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2554</td>
+      <td>1709.05</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <td>712450</td>
-      <td>26.07.2013</td>
-      <td>6</td>
-      <td>46</td>
-      <td>6433</td>
-      <td>449.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <td>2104279</td>
-      <td>18.10.2014</td>
-      <td>21</td>
-      <td>46</td>
-      <td>17717</td>
-      <td>799.0</td>
+      <td>4</td>
+      <td>15.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2555</td>
+      <td>1099.00</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -176,11 +176,24 @@ summary: "API details."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">Y_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">]</span>
-<span class="n">X_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">Y_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">]</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">34</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_month&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">&lt;</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">]</span>
+<span class="n">X_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_valid</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">33</span><span class="p">][</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="n">data_df</span><span class="o">.</span><span class="n">date_block_num</span> <span class="o">==</span> <span class="mi">34</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -228,224 +241,44 @@ summary: "API details."
       <th>date_block_num</th>
       <th>shop_id</th>
       <th>item_id</th>
-      <th>city_code</th>
-      <th>item_category_id</th>
-      <th>type_code</th>
-      <th>subtype_code</th>
-      <th>item_cnt_month_lag_1</th>
-      <th>item_cnt_month_lag_2</th>
-      <th>item_cnt_month_lag_3</th>
-      <th>item_cnt_month_lag_6</th>
-      <th>item_cnt_month_lag_12</th>
-      <th>date_avg_item_cnt_lag_1</th>
-      <th>date_item_avg_item_cnt_lag_1</th>
-      <th>date_item_avg_item_cnt_lag_2</th>
-      <th>date_item_avg_item_cnt_lag_3</th>
-      <th>date_item_avg_item_cnt_lag_6</th>
-      <th>date_item_avg_item_cnt_lag_12</th>
-      <th>date_shop_avg_item_cnt_lag_1</th>
-      <th>date_shop_avg_item_cnt_lag_2</th>
-      <th>date_shop_avg_item_cnt_lag_3</th>
-      <th>date_shop_avg_item_cnt_lag_6</th>
-      <th>date_shop_avg_item_cnt_lag_12</th>
-      <th>date_cat_avg_item_cnt_lag_1</th>
-      <th>date_shop_cat_avg_item_cnt_lag_1</th>
-      <th>date_city_avg_item_cnt_lag_1</th>
-      <th>date_item_city_avg_item_cnt_lag_1</th>
-      <th>delta_price_lag</th>
-      <th>month</th>
-      <th>days</th>
-      <th>item_shop_last_sale</th>
-      <th>item_last_sale</th>
-      <th>item_shop_first_sale</th>
-      <th>item_first_sale</th>
+      <th>item_price</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>12</td>
-      <td>2</td>
-      <td>27</td>
       <td>0</td>
-      <td>19</td>
-      <td>5</td>
-      <td>10</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.4114</td>
-      <td>0.0870</td>
-      <td>0.04443</td>
-      <td>0.1305</td>
-      <td>0.06525</td>
-      <td>0.1555</td>
-      <td>0.1481</td>
-      <td>0.10065</td>
-      <td>0.08905</td>
-      <td>0.096</td>
-      <td>0.1412</td>
-      <td>1.0820</td>
-      <td>0.95560</td>
-      <td>0.1481</td>
-      <td>0.0</td>
-      <td>-0.2827</td>
       <td>0</td>
-      <td>31</td>
-      <td>1</td>
-      <td>1</td>
-      <td>12</td>
-      <td>12</td>
+      <td>59</td>
+      <td>22154</td>
+      <td>999.00</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>12</td>
-      <td>2</td>
-      <td>30</td>
+      <td>1</td>
       <td>0</td>
-      <td>40</td>
-      <td>11</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2554</td>
+      <td>1709.05</td>
+    </tr>
+    <tr>
       <td>4</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.4114</td>
-      <td>1.0210</td>
-      <td>1.02200</td>
-      <td>0.5220</td>
-      <td>0.89100</td>
-      <td>0.0000</td>
-      <td>0.1481</td>
-      <td>0.10065</td>
-      <td>0.08905</td>
-      <td>0.096</td>
-      <td>0.0000</td>
-      <td>0.2915</td>
-      <td>0.04623</td>
-      <td>0.1481</td>
-      <td>0.0</td>
-      <td>-0.4834</td>
       <td>0</td>
-      <td>31</td>
-      <td>1</td>
-      <td>1</td>
-      <td>11</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>12</td>
-      <td>2</td>
-      <td>31</td>
-      <td>0</td>
-      <td>37</td>
-      <td>11</td>
-      <td>1</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.4114</td>
-      <td>0.5435</td>
-      <td>0.60000</td>
-      <td>0.5435</td>
-      <td>0.30440</td>
-      <td>0.0000</td>
-      <td>0.1481</td>
-      <td>0.10065</td>
-      <td>0.08905</td>
-      <td>0.096</td>
-      <td>0.0000</td>
-      <td>0.2328</td>
-      <td>0.05945</td>
-      <td>0.1481</td>
-      <td>0.0</td>
-      <td>-0.1375</td>
-      <td>0</td>
-      <td>31</td>
-      <td>1</td>
-      <td>1</td>
-      <td>11</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>12</td>
-      <td>2</td>
-      <td>32</td>
-      <td>0</td>
-      <td>40</td>
-      <td>11</td>
-      <td>4</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.4114</td>
-      <td>1.9350</td>
-      <td>1.80000</td>
-      <td>1.2610</td>
-      <td>1.89200</td>
-      <td>5.3800</td>
-      <td>0.1481</td>
-      <td>0.10065</td>
-      <td>0.08905</td>
-      <td>0.096</td>
-      <td>0.1412</td>
-      <td>0.2915</td>
-      <td>0.04623</td>
-      <td>0.1481</td>
-      <td>0.0</td>
-      <td>-0.4072</td>
-      <td>0</td>
-      <td>31</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>12</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>12</td>
-      <td>2</td>
-      <td>33</td>
-      <td>0</td>
-      <td>37</td>
-      <td>11</td>
-      <td>1</td>
-      <td>1.0</td>
-      <td>2.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.4114</td>
-      <td>0.9130</td>
-      <td>0.33330</td>
-      <td>0.7173</td>
-      <td>1.00000</td>
-      <td>1.3550</td>
-      <td>0.1481</td>
-      <td>0.10065</td>
-      <td>0.08905</td>
-      <td>0.096</td>
-      <td>0.1412</td>
-      <td>0.2328</td>
-      <td>0.05945</td>
-      <td>0.1481</td>
-      <td>1.0</td>
-      <td>-0.2255</td>
-      <td>0</td>
-      <td>31</td>
-      <td>1</td>
-      <td>1</td>
-      <td>12</td>
-      <td>12</td>
+      <td>25</td>
+      <td>2555</td>
+      <td>1099.00</td>
     </tr>
   </tbody>
 </table>
@@ -463,7 +296,7 @@ summary: "API details."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">data</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">data_df</span>
 <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">();</span>
 </pre></div>
 
@@ -646,125 +479,186 @@ summary: "API details."
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>task type: GPU
-0:	learn: 1.0635187	test: 1.0494160	best: 1.0494160 (0)	total: 133ms	remaining: 2m 13s
-1:	learn: 0.9808246	test: 0.9990526	best: 0.9990526 (1)	total: 204ms	remaining: 1m 41s
-2:	learn: 0.9351607	test: 0.9680294	best: 0.9680294 (2)	total: 277ms	remaining: 1m 31s
-3:	learn: 0.9115793	test: 0.9561274	best: 0.9561274 (3)	total: 343ms	remaining: 1m 25s
-4:	learn: 0.8987176	test: 0.9474366	best: 0.9474366 (4)	total: 424ms	remaining: 1m 24s
-5:	learn: 0.8904159	test: 0.9441049	best: 0.9441049 (5)	total: 498ms	remaining: 1m 22s
-6:	learn: 0.8845093	test: 0.9405823	best: 0.9405823 (6)	total: 579ms	remaining: 1m 22s
-7:	learn: 0.8799512	test: 0.9388863	best: 0.9388863 (7)	total: 659ms	remaining: 1m 21s
-8:	learn: 0.8771009	test: 0.9373010	best: 0.9373010 (8)	total: 740ms	remaining: 1m 21s
-9:	learn: 0.8742543	test: 0.9356766	best: 0.9356766 (9)	total: 818ms	remaining: 1m 20s
-10:	learn: 0.8728465	test: 0.9331059	best: 0.9331059 (10)	total: 895ms	remaining: 1m 20s
-11:	learn: 0.8668628	test: 0.9230562	best: 0.9230562 (11)	total: 970ms	remaining: 1m 19s
-12:	learn: 0.8649485	test: 0.9227412	best: 0.9227412 (12)	total: 1.04s	remaining: 1m 19s
-13:	learn: 0.8626694	test: 0.9232386	best: 0.9227412 (12)	total: 1.12s	remaining: 1m 18s
-14:	learn: 0.8616457	test: 0.9221361	best: 0.9221361 (14)	total: 1.19s	remaining: 1m 18s
-15:	learn: 0.8596541	test: 0.9221897	best: 0.9221361 (14)	total: 1.26s	remaining: 1m 17s
-16:	learn: 0.8583115	test: 0.9251706	best: 0.9221361 (14)	total: 1.34s	remaining: 1m 17s
-17:	learn: 0.8566897	test: 0.9247757	best: 0.9221361 (14)	total: 1.41s	remaining: 1m 16s
-18:	learn: 0.8541397	test: 0.9221978	best: 0.9221361 (14)	total: 1.48s	remaining: 1m 16s
-19:	learn: 0.8525591	test: 0.9216906	best: 0.9216906 (19)	total: 1.56s	remaining: 1m 16s
-20:	learn: 0.8511094	test: 0.9218438	best: 0.9216906 (19)	total: 1.64s	remaining: 1m 16s
-21:	learn: 0.8502345	test: 0.9207696	best: 0.9207696 (21)	total: 1.72s	remaining: 1m 16s
-22:	learn: 0.8486732	test: 0.9206212	best: 0.9206212 (22)	total: 1.79s	remaining: 1m 16s
-23:	learn: 0.8466883	test: 0.9184681	best: 0.9184681 (23)	total: 1.88s	remaining: 1m 16s
-24:	learn: 0.8457516	test: 0.9174807	best: 0.9174807 (24)	total: 1.95s	remaining: 1m 16s
-25:	learn: 0.8451044	test: 0.9171454	best: 0.9171454 (25)	total: 2.02s	remaining: 1m 15s
-26:	learn: 0.8441719	test: 0.9168043	best: 0.9168043 (26)	total: 2.09s	remaining: 1m 15s
-27:	learn: 0.8428709	test: 0.9183214	best: 0.9168043 (26)	total: 2.16s	remaining: 1m 15s
-28:	learn: 0.8415693	test: 0.9180533	best: 0.9168043 (26)	total: 2.24s	remaining: 1m 14s
-29:	learn: 0.8410878	test: 0.9175965	best: 0.9168043 (26)	total: 2.32s	remaining: 1m 14s
-30:	learn: 0.8401697	test: 0.9167336	best: 0.9167336 (30)	total: 2.39s	remaining: 1m 14s
-31:	learn: 0.8389529	test: 0.9167681	best: 0.9167336 (30)	total: 2.46s	remaining: 1m 14s
-32:	learn: 0.8380070	test: 0.9169093	best: 0.9167336 (30)	total: 2.53s	remaining: 1m 14s
-33:	learn: 0.8375378	test: 0.9168292	best: 0.9167336 (30)	total: 2.6s	remaining: 1m 13s
-34:	learn: 0.8368391	test: 0.9172570	best: 0.9167336 (30)	total: 2.67s	remaining: 1m 13s
-35:	learn: 0.8362999	test: 0.9168413	best: 0.9167336 (30)	total: 2.76s	remaining: 1m 13s
-36:	learn: 0.8351952	test: 0.9177300	best: 0.9167336 (30)	total: 2.83s	remaining: 1m 13s
-37:	learn: 0.8348308	test: 0.9185146	best: 0.9167336 (30)	total: 2.91s	remaining: 1m 13s
-38:	learn: 0.8342555	test: 0.9183851	best: 0.9167336 (30)	total: 2.99s	remaining: 1m 13s
-39:	learn: 0.8338824	test: 0.9184341	best: 0.9167336 (30)	total: 3.06s	remaining: 1m 13s
-40:	learn: 0.8333315	test: 0.9185553	best: 0.9167336 (30)	total: 3.13s	remaining: 1m 13s
-41:	learn: 0.8329071	test: 0.9183590	best: 0.9167336 (30)	total: 3.19s	remaining: 1m 12s
-42:	learn: 0.8326842	test: 0.9203398	best: 0.9167336 (30)	total: 3.26s	remaining: 1m 12s
-43:	learn: 0.8321547	test: 0.9201981	best: 0.9167336 (30)	total: 3.33s	remaining: 1m 12s
-44:	learn: 0.8312594	test: 0.9203373	best: 0.9167336 (30)	total: 3.4s	remaining: 1m 12s
-45:	learn: 0.8308627	test: 0.9198652	best: 0.9167336 (30)	total: 3.48s	remaining: 1m 12s
-46:	learn: 0.8304000	test: 0.9199143	best: 0.9167336 (30)	total: 3.56s	remaining: 1m 12s
-47:	learn: 0.8292433	test: 0.9184988	best: 0.9167336 (30)	total: 3.63s	remaining: 1m 12s
-48:	learn: 0.8275767	test: 0.9147953	best: 0.9147953 (48)	total: 3.71s	remaining: 1m 11s
-49:	learn: 0.8272600	test: 0.9144970	best: 0.9144970 (49)	total: 3.77s	remaining: 1m 11s
-50:	learn: 0.8243299	test: 0.9124870	best: 0.9124870 (50)	total: 3.86s	remaining: 1m 11s
-51:	learn: 0.8239672	test: 0.9123485	best: 0.9123485 (51)	total: 3.92s	remaining: 1m 11s
-52:	learn: 0.8233225	test: 0.9136757	best: 0.9123485 (51)	total: 4s	remaining: 1m 11s
-53:	learn: 0.8227590	test: 0.9136972	best: 0.9123485 (51)	total: 4.07s	remaining: 1m 11s
-54:	learn: 0.8222621	test: 0.9136617	best: 0.9123485 (51)	total: 4.15s	remaining: 1m 11s
-55:	learn: 0.8218872	test: 0.9134614	best: 0.9123485 (51)	total: 4.22s	remaining: 1m 11s
-56:	learn: 0.8212231	test: 0.9120821	best: 0.9120821 (56)	total: 4.29s	remaining: 1m 10s
-57:	learn: 0.8208579	test: 0.9125118	best: 0.9120821 (56)	total: 4.36s	remaining: 1m 10s
-58:	learn: 0.8202703	test: 0.9125064	best: 0.9120821 (56)	total: 4.43s	remaining: 1m 10s
-59:	learn: 0.8198686	test: 0.9118820	best: 0.9118820 (59)	total: 4.5s	remaining: 1m 10s
-60:	learn: 0.8194725	test: 0.9121274	best: 0.9118820 (59)	total: 4.58s	remaining: 1m 10s
-61:	learn: 0.8192057	test: 0.9121698	best: 0.9118820 (59)	total: 4.65s	remaining: 1m 10s
-62:	learn: 0.8189478	test: 0.9122124	best: 0.9118820 (59)	total: 4.71s	remaining: 1m 10s
-63:	learn: 0.8187062	test: 0.9123039	best: 0.9118820 (59)	total: 4.8s	remaining: 1m 10s
-64:	learn: 0.8175997	test: 0.9111744	best: 0.9111744 (64)	total: 4.87s	remaining: 1m 10s
-65:	learn: 0.8174127	test: 0.9113051	best: 0.9111744 (64)	total: 4.94s	remaining: 1m 9s
-66:	learn: 0.8167486	test: 0.9112832	best: 0.9111744 (64)	total: 5.02s	remaining: 1m 9s
-67:	learn: 0.8144416	test: 0.9150917	best: 0.9111744 (64)	total: 5.1s	remaining: 1m 9s
-68:	learn: 0.8142405	test: 0.9153059	best: 0.9111744 (64)	total: 5.18s	remaining: 1m 9s
-69:	learn: 0.8139372	test: 0.9154566	best: 0.9111744 (64)	total: 5.24s	remaining: 1m 9s
-70:	learn: 0.8136304	test: 0.9150032	best: 0.9111744 (64)	total: 5.33s	remaining: 1m 9s
-71:	learn: 0.8133599	test: 0.9147812	best: 0.9111744 (64)	total: 5.39s	remaining: 1m 9s
-72:	learn: 0.8119606	test: 0.9128335	best: 0.9111744 (64)	total: 5.47s	remaining: 1m 9s
-73:	learn: 0.8116957	test: 0.9127562	best: 0.9111744 (64)	total: 5.54s	remaining: 1m 9s
-74:	learn: 0.8113628	test: 0.9128658	best: 0.9111744 (64)	total: 5.62s	remaining: 1m 9s
-75:	learn: 0.8110737	test: 0.9133638	best: 0.9111744 (64)	total: 5.7s	remaining: 1m 9s
-76:	learn: 0.8103188	test: 0.9129477	best: 0.9111744 (64)	total: 5.78s	remaining: 1m 9s
-77:	learn: 0.8098433	test: 0.9126359	best: 0.9111744 (64)	total: 5.85s	remaining: 1m 9s
-78:	learn: 0.8089731	test: 0.9118863	best: 0.9111744 (64)	total: 5.92s	remaining: 1m 9s
-79:	learn: 0.8086257	test: 0.9121479	best: 0.9111744 (64)	total: 6s	remaining: 1m 8s
-80:	learn: 0.8083081	test: 0.9121345	best: 0.9111744 (64)	total: 6.07s	remaining: 1m 8s
-81:	learn: 0.8064476	test: 0.9112245	best: 0.9111744 (64)	total: 6.14s	remaining: 1m 8s
-82:	learn: 0.8061472	test: 0.9113706	best: 0.9111744 (64)	total: 6.21s	remaining: 1m 8s
-83:	learn: 0.8059434	test: 0.9113726	best: 0.9111744 (64)	total: 6.28s	remaining: 1m 8s
-84:	learn: 0.8055617	test: 0.9116575	best: 0.9111744 (64)	total: 6.36s	remaining: 1m 8s
-85:	learn: 0.8053966	test: 0.9117473	best: 0.9111744 (64)	total: 6.42s	remaining: 1m 8s
-86:	learn: 0.8052025	test: 0.9117343	best: 0.9111744 (64)	total: 6.48s	remaining: 1m 8s
-87:	learn: 0.8050670	test: 0.9117720	best: 0.9111744 (64)	total: 6.56s	remaining: 1m 7s
-88:	learn: 0.8048847	test: 0.9117098	best: 0.9111744 (64)	total: 6.64s	remaining: 1m 7s
-89:	learn: 0.8045044	test: 0.9116875	best: 0.9111744 (64)	total: 6.71s	remaining: 1m 7s
-90:	learn: 0.8043386	test: 0.9117172	best: 0.9111744 (64)	total: 6.78s	remaining: 1m 7s
-91:	learn: 0.8041857	test: 0.9123895	best: 0.9111744 (64)	total: 6.84s	remaining: 1m 7s
-92:	learn: 0.8040109	test: 0.9135360	best: 0.9111744 (64)	total: 6.92s	remaining: 1m 7s
-93:	learn: 0.8030781	test: 0.9131136	best: 0.9111744 (64)	total: 6.98s	remaining: 1m 7s
-94:	learn: 0.8028629	test: 0.9132639	best: 0.9111744 (64)	total: 7.05s	remaining: 1m 7s
-95:	learn: 0.8026979	test: 0.9134100	best: 0.9111744 (64)	total: 7.11s	remaining: 1m 6s
-96:	learn: 0.8024345	test: 0.9138630	best: 0.9111744 (64)	total: 7.19s	remaining: 1m 6s
-97:	learn: 0.8022806	test: 0.9136134	best: 0.9111744 (64)	total: 7.26s	remaining: 1m 6s
-98:	learn: 0.8013758	test: 0.9121109	best: 0.9111744 (64)	total: 7.34s	remaining: 1m 6s
-99:	learn: 0.8011781	test: 0.9121633	best: 0.9111744 (64)	total: 7.4s	remaining: 1m 6s
-100:	learn: 0.8009983	test: 0.9119475	best: 0.9111744 (64)	total: 7.47s	remaining: 1m 6s
-101:	learn: 0.8007753	test: 0.9135814	best: 0.9111744 (64)	total: 7.54s	remaining: 1m 6s
-102:	learn: 0.8002699	test: 0.9132776	best: 0.9111744 (64)	total: 7.61s	remaining: 1m 6s
-103:	learn: 0.8000729	test: 0.9132601	best: 0.9111744 (64)	total: 7.68s	remaining: 1m 6s
-104:	learn: 0.7999300	test: 0.9132153	best: 0.9111744 (64)	total: 7.74s	remaining: 1m 5s
-105:	learn: 0.7998176	test: 0.9132563	best: 0.9111744 (64)	total: 7.81s	remaining: 1m 5s
-106:	learn: 0.7994833	test: 0.9128320	best: 0.9111744 (64)	total: 7.89s	remaining: 1m 5s
-107:	learn: 0.7990910	test: 0.9128166	best: 0.9111744 (64)	total: 7.96s	remaining: 1m 5s
-108:	learn: 0.7989339	test: 0.9127158	best: 0.9111744 (64)	total: 8.03s	remaining: 1m 5s
-109:	learn: 0.7986178	test: 0.9127770	best: 0.9111744 (64)	total: 8.1s	remaining: 1m 5s
-110:	learn: 0.7984616	test: 0.9125854	best: 0.9111744 (64)	total: 8.17s	remaining: 1m 5s
-111:	learn: 0.7983014	test: 0.9125260	best: 0.9111744 (64)	total: 8.24s	remaining: 1m 5s
-112:	learn: 0.7980445	test: 0.9122910	best: 0.9111744 (64)	total: 8.32s	remaining: 1m 5s
-113:	learn: 0.7978969	test: 0.9122807	best: 0.9111744 (64)	total: 8.4s	remaining: 1m 5s
-114:	learn: 0.7975855	test: 0.9122155	best: 0.9111744 (64)	total: 8.47s	remaining: 1m 5s
-bestTest = 0.9111744189
-bestIteration = 64
-Shrink model to first 65 iterations.
+<pre>task type: CPU
+0:	learn: 2.2294130	test: 9.7623564	best: 9.7623564 (0)	total: 762ms	remaining: 12m 41s
+1:	learn: 2.2051488	test: 9.7571760	best: 9.7571760 (1)	total: 1.14s	remaining: 9m 31s
+2:	learn: 2.1936169	test: 9.7581899	best: 9.7571760 (1)	total: 1.55s	remaining: 8m 37s
+3:	learn: 2.1501633	test: 9.6044575	best: 9.6044575 (3)	total: 1.84s	remaining: 7m 37s
+4:	learn: 2.1415261	test: 9.6035323	best: 9.6035323 (4)	total: 2.13s	remaining: 7m 5s
+5:	learn: 2.1368785	test: 9.6032698	best: 9.6032698 (5)	total: 2.54s	remaining: 7m
+6:	learn: 2.1271711	test: 9.6032873	best: 9.6032698 (5)	total: 2.84s	remaining: 6m 43s
+7:	learn: 2.1240736	test: 9.6031107	best: 9.6031107 (7)	total: 3.27s	remaining: 6m 46s
+8:	learn: 2.1198226	test: 9.6070751	best: 9.6031107 (7)	total: 3.56s	remaining: 6m 32s
+9:	learn: 2.1158140	test: 9.6057547	best: 9.6031107 (7)	total: 3.85s	remaining: 6m 21s
+10:	learn: 2.1068363	test: 9.6056186	best: 9.6031107 (7)	total: 4.15s	remaining: 6m 12s
+11:	learn: 2.1054902	test: 9.6058995	best: 9.6031107 (7)	total: 4.45s	remaining: 6m 6s
+12:	learn: 2.1029512	test: 9.6059401	best: 9.6031107 (7)	total: 4.78s	remaining: 6m 3s
+13:	learn: 2.0810105	test: 9.6061047	best: 9.6031107 (7)	total: 5.09s	remaining: 5m 58s
+14:	learn: 2.0782914	test: 9.6060214	best: 9.6031107 (7)	total: 5.38s	remaining: 5m 53s
+15:	learn: 2.0768353	test: 9.6059496	best: 9.6031107 (7)	total: 5.73s	remaining: 5m 52s
+16:	learn: 2.0592506	test: 9.5452229	best: 9.5452229 (16)	total: 6.03s	remaining: 5m 48s
+17:	learn: 2.0578205	test: 9.5449473	best: 9.5449473 (17)	total: 6.32s	remaining: 5m 44s
+18:	learn: 2.0554762	test: 9.5449793	best: 9.5449473 (17)	total: 6.69s	remaining: 5m 45s
+19:	learn: 2.0538966	test: 9.5449150	best: 9.5449150 (19)	total: 6.98s	remaining: 5m 41s
+20:	learn: 2.0201790	test: 9.5452356	best: 9.5449150 (19)	total: 7.41s	remaining: 5m 45s
+21:	learn: 2.0159917	test: 9.5444882	best: 9.5444882 (21)	total: 8.11s	remaining: 6m
+22:	learn: 2.0144246	test: 9.5430907	best: 9.5430907 (22)	total: 8.46s	remaining: 5m 59s
+23:	learn: 2.0137116	test: 9.5430047	best: 9.5430047 (23)	total: 8.93s	remaining: 6m 3s
+24:	learn: 2.0083557	test: 9.5436835	best: 9.5430047 (23)	total: 9.32s	remaining: 6m 3s
+25:	learn: 2.0014393	test: 9.5490417	best: 9.5430047 (23)	total: 9.63s	remaining: 6m
+26:	learn: 1.9996181	test: 9.5490454	best: 9.5430047 (23)	total: 9.94s	remaining: 5m 58s
+27:	learn: 1.9960842	test: 9.5384069	best: 9.5384069 (27)	total: 10.2s	remaining: 5m 55s
+28:	learn: 1.9933633	test: 9.5379635	best: 9.5379635 (28)	total: 10.5s	remaining: 5m 52s
+29:	learn: 1.9920022	test: 9.5380063	best: 9.5379635 (28)	total: 10.9s	remaining: 5m 51s
+30:	learn: 1.9905059	test: 9.5379752	best: 9.5379635 (28)	total: 11.2s	remaining: 5m 48s
+31:	learn: 1.9898216	test: 9.5380038	best: 9.5379635 (28)	total: 11.5s	remaining: 5m 46s
+32:	learn: 1.9885853	test: 9.5380456	best: 9.5379635 (28)	total: 11.8s	remaining: 5m 45s
+33:	learn: 1.9840746	test: 9.5384603	best: 9.5379635 (28)	total: 12.1s	remaining: 5m 42s
+34:	learn: 1.9825693	test: 9.5384415	best: 9.5379635 (28)	total: 12.4s	remaining: 5m 42s
+35:	learn: 1.9819100	test: 9.5384631	best: 9.5379635 (28)	total: 12.7s	remaining: 5m 40s
+36:	learn: 1.9783488	test: 9.5194970	best: 9.5194970 (36)	total: 13s	remaining: 5m 38s
+37:	learn: 1.9759464	test: 9.5196083	best: 9.5194970 (36)	total: 13.3s	remaining: 5m 36s
+38:	learn: 1.9745541	test: 9.5195385	best: 9.5194970 (36)	total: 13.6s	remaining: 5m 34s
+39:	learn: 1.9741921	test: 9.5189835	best: 9.5189835 (39)	total: 13.9s	remaining: 5m 32s
+40:	learn: 1.9719567	test: 9.5192959	best: 9.5189835 (39)	total: 14.2s	remaining: 5m 31s
+41:	learn: 1.9699940	test: 9.5226360	best: 9.5189835 (39)	total: 14.5s	remaining: 5m 30s
+42:	learn: 1.9690314	test: 9.5226526	best: 9.5189835 (39)	total: 14.8s	remaining: 5m 28s
+43:	learn: 1.9681814	test: 9.5223103	best: 9.5189835 (39)	total: 15.1s	remaining: 5m 27s
+44:	learn: 1.9669671	test: 9.5223395	best: 9.5189835 (39)	total: 15.4s	remaining: 5m 27s
+45:	learn: 1.9663137	test: 9.5223377	best: 9.5189835 (39)	total: 15.8s	remaining: 5m 26s
+46:	learn: 1.9585372	test: 9.5224917	best: 9.5189835 (39)	total: 16.1s	remaining: 5m 25s
+47:	learn: 1.9555785	test: 9.5224015	best: 9.5189835 (39)	total: 16.4s	remaining: 5m 24s
+48:	learn: 1.9532166	test: 9.5223861	best: 9.5189835 (39)	total: 16.7s	remaining: 5m 24s
+49:	learn: 1.9423671	test: 9.4957291	best: 9.4957291 (49)	total: 17s	remaining: 5m 22s
+50:	learn: 1.9417486	test: 9.4957165	best: 9.4957165 (50)	total: 17.3s	remaining: 5m 22s
+51:	learn: 1.9404602	test: 9.4958250	best: 9.4957165 (50)	total: 17.7s	remaining: 5m 22s
+52:	learn: 1.9397528	test: 9.4957455	best: 9.4957165 (50)	total: 18s	remaining: 5m 21s
+53:	learn: 1.9395772	test: 9.4956705	best: 9.4956705 (53)	total: 18.3s	remaining: 5m 20s
+54:	learn: 1.9384863	test: 9.4958275	best: 9.4956705 (53)	total: 18.6s	remaining: 5m 19s
+55:	learn: 1.9374777	test: 9.4958213	best: 9.4956705 (53)	total: 18.9s	remaining: 5m 18s
+56:	learn: 1.9358561	test: 9.4958816	best: 9.4956705 (53)	total: 19.2s	remaining: 5m 18s
+57:	learn: 1.9355292	test: 9.4954360	best: 9.4954360 (57)	total: 19.5s	remaining: 5m 17s
+58:	learn: 1.9350090	test: 9.4954379	best: 9.4954360 (57)	total: 19.8s	remaining: 5m 16s
+59:	learn: 1.9345830	test: 9.4953724	best: 9.4953724 (59)	total: 20.1s	remaining: 5m 15s
+60:	learn: 1.9339920	test: 9.4940154	best: 9.4940154 (60)	total: 20.4s	remaining: 5m 14s
+61:	learn: 1.9333693	test: 9.4938951	best: 9.4938951 (61)	total: 20.7s	remaining: 5m 13s
+62:	learn: 1.9328305	test: 9.4938748	best: 9.4938748 (62)	total: 21s	remaining: 5m 12s
+63:	learn: 1.9321213	test: 9.4938460	best: 9.4938460 (63)	total: 21.3s	remaining: 5m 11s
+64:	learn: 1.9311226	test: 9.4937678	best: 9.4937678 (64)	total: 21.6s	remaining: 5m 11s
+65:	learn: 1.9305096	test: 9.4937432	best: 9.4937432 (65)	total: 21.9s	remaining: 5m 10s
+66:	learn: 1.9292910	test: 9.4936138	best: 9.4936138 (66)	total: 22.2s	remaining: 5m 9s
+67:	learn: 1.9287599	test: 9.4931998	best: 9.4931998 (67)	total: 22.6s	remaining: 5m 9s
+68:	learn: 1.9221245	test: 9.4932393	best: 9.4931998 (67)	total: 22.8s	remaining: 5m 8s
+69:	learn: 1.9206909	test: 9.4932762	best: 9.4931998 (67)	total: 23.1s	remaining: 5m 7s
+70:	learn: 1.9198678	test: 9.4933398	best: 9.4931998 (67)	total: 23.5s	remaining: 5m 6s
+71:	learn: 1.9154574	test: 9.2012161	best: 9.2012161 (71)	total: 23.7s	remaining: 5m 6s
+72:	learn: 1.9149297	test: 9.2021055	best: 9.2012161 (71)	total: 24s	remaining: 5m 5s
+73:	learn: 1.9129130	test: 9.2020137	best: 9.2012161 (71)	total: 24.3s	remaining: 5m 4s
+74:	learn: 1.9126102	test: 9.2019478	best: 9.2012161 (71)	total: 24.6s	remaining: 5m 3s
+75:	learn: 1.9123056	test: 9.2019374	best: 9.2012161 (71)	total: 25s	remaining: 5m 3s
+76:	learn: 1.9119048	test: 9.2019487	best: 9.2012161 (71)	total: 25.4s	remaining: 5m 3s
+77:	learn: 1.9115290	test: 9.2019058	best: 9.2012161 (71)	total: 25.7s	remaining: 5m 3s
+78:	learn: 1.9113093	test: 9.2019455	best: 9.2012161 (71)	total: 26s	remaining: 5m 3s
+79:	learn: 1.9100641	test: 9.2019401	best: 9.2012161 (71)	total: 26.6s	remaining: 5m 6s
+80:	learn: 1.9092528	test: 9.2018577	best: 9.2012161 (71)	total: 26.9s	remaining: 5m 5s
+81:	learn: 1.9086414	test: 9.2009977	best: 9.2009977 (81)	total: 27.4s	remaining: 5m 6s
+82:	learn: 1.9080905	test: 9.2010584	best: 9.2009977 (81)	total: 27.7s	remaining: 5m 6s
+83:	learn: 1.9078817	test: 9.2009837	best: 9.2009837 (83)	total: 28s	remaining: 5m 5s
+84:	learn: 1.9076017	test: 9.2009681	best: 9.2009681 (84)	total: 28.3s	remaining: 5m 5s
+85:	learn: 1.9072400	test: 9.2009794	best: 9.2009681 (84)	total: 28.7s	remaining: 5m 4s
+86:	learn: 1.9042095	test: 8.9681315	best: 8.9681315 (86)	total: 29s	remaining: 5m 3s
+87:	learn: 1.9040063	test: 8.9679599	best: 8.9679599 (87)	total: 29.3s	remaining: 5m 3s
+88:	learn: 1.9033946	test: 8.9677645	best: 8.9677645 (88)	total: 29.6s	remaining: 5m 2s
+89:	learn: 1.9023357	test: 8.9677520	best: 8.9677520 (89)	total: 29.9s	remaining: 5m 1s
+90:	learn: 1.9018698	test: 8.9676577	best: 8.9676577 (90)	total: 30.2s	remaining: 5m 1s
+91:	learn: 1.9014233	test: 8.9676521	best: 8.9676521 (91)	total: 31.2s	remaining: 5m 7s
+92:	learn: 1.9011186	test: 8.9677901	best: 8.9676521 (91)	total: 32.1s	remaining: 5m 13s
+93:	learn: 1.9008316	test: 8.9677856	best: 8.9676521 (91)	total: 32.6s	remaining: 5m 14s
+94:	learn: 1.8998135	test: 8.9678121	best: 8.9676521 (91)	total: 33.3s	remaining: 5m 16s
+95:	learn: 1.8988977	test: 8.9677911	best: 8.9676521 (91)	total: 33.6s	remaining: 5m 16s
+96:	learn: 1.8986541	test: 8.9675947	best: 8.9675947 (96)	total: 33.9s	remaining: 5m 15s
+97:	learn: 1.8980265	test: 8.9676082	best: 8.9675947 (96)	total: 34.3s	remaining: 5m 15s
+98:	learn: 1.8978497	test: 8.9675173	best: 8.9675173 (98)	total: 34.6s	remaining: 5m 15s
+99:	learn: 1.8942698	test: 8.9593814	best: 8.9593814 (99)	total: 35.4s	remaining: 5m 18s
+100:	learn: 1.8935714	test: 8.9591959	best: 8.9591959 (100)	total: 35.8s	remaining: 5m 18s
+101:	learn: 1.8932886	test: 8.9593890	best: 8.9591959 (100)	total: 36.5s	remaining: 5m 21s
+102:	learn: 1.8914082	test: 8.9595186	best: 8.9591959 (100)	total: 36.9s	remaining: 5m 21s
+103:	learn: 1.8911552	test: 8.9589037	best: 8.9589037 (103)	total: 37.4s	remaining: 5m 22s
+104:	learn: 1.8910254	test: 8.9589108	best: 8.9589037 (103)	total: 37.8s	remaining: 5m 22s
+105:	learn: 1.8904893	test: 8.9588550	best: 8.9588550 (105)	total: 38.2s	remaining: 5m 22s
+106:	learn: 1.8894389	test: 8.9588495	best: 8.9588495 (106)	total: 38.7s	remaining: 5m 22s
+107:	learn: 1.8892436	test: 8.9588291	best: 8.9588291 (107)	total: 39.3s	remaining: 5m 24s
+108:	learn: 1.8889646	test: 8.9588127	best: 8.9588127 (108)	total: 39.6s	remaining: 5m 24s
+109:	learn: 1.8878755	test: 8.9588197	best: 8.9588127 (108)	total: 40.1s	remaining: 5m 24s
+110:	learn: 1.8872669	test: 8.9585111	best: 8.9585111 (110)	total: 40.4s	remaining: 5m 23s
+111:	learn: 1.8868385	test: 8.9586696	best: 8.9585111 (110)	total: 40.7s	remaining: 5m 22s
+112:	learn: 1.8864233	test: 8.9586579	best: 8.9585111 (110)	total: 41.4s	remaining: 5m 24s
+113:	learn: 1.8861924	test: 8.9585940	best: 8.9585111 (110)	total: 42.4s	remaining: 5m 29s
+114:	learn: 1.8854541	test: 8.9587081	best: 8.9585111 (110)	total: 42.7s	remaining: 5m 28s
+115:	learn: 1.8850305	test: 8.9583637	best: 8.9583637 (115)	total: 43.2s	remaining: 5m 29s
+116:	learn: 1.8849010	test: 8.9583476	best: 8.9583476 (116)	total: 43.7s	remaining: 5m 29s
+117:	learn: 1.8845855	test: 8.9576255	best: 8.9576255 (117)	total: 44.1s	remaining: 5m 29s
+118:	learn: 1.8843162	test: 8.9578108	best: 8.9576255 (117)	total: 44.7s	remaining: 5m 30s
+119:	learn: 1.8841183	test: 8.9573224	best: 8.9573224 (119)	total: 45.1s	remaining: 5m 30s
+120:	learn: 1.8838699	test: 8.9572941	best: 8.9572941 (120)	total: 45.7s	remaining: 5m 31s
+121:	learn: 1.8837094	test: 8.9572764	best: 8.9572764 (121)	total: 46s	remaining: 5m 31s
+122:	learn: 1.8833882	test: 8.9572214	best: 8.9572214 (122)	total: 46.4s	remaining: 5m 31s
+123:	learn: 1.8832684	test: 8.9572236	best: 8.9572214 (122)	total: 47s	remaining: 5m 31s
+124:	learn: 1.8824690	test: 8.9574352	best: 8.9572214 (122)	total: 47.4s	remaining: 5m 31s
+125:	learn: 1.8814911	test: 8.9574159	best: 8.9572214 (122)	total: 47.8s	remaining: 5m 31s
+126:	learn: 1.8812084	test: 8.9575886	best: 8.9572214 (122)	total: 48.1s	remaining: 5m 30s
+127:	learn: 1.8811016	test: 8.9575755	best: 8.9572214 (122)	total: 48.6s	remaining: 5m 30s
+128:	learn: 1.8808306	test: 8.9575058	best: 8.9572214 (122)	total: 48.9s	remaining: 5m 30s
+129:	learn: 1.8805813	test: 8.9575100	best: 8.9572214 (122)	total: 49.2s	remaining: 5m 29s
+130:	learn: 1.8805152	test: 8.9574953	best: 8.9572214 (122)	total: 49.6s	remaining: 5m 28s
+131:	learn: 1.8803587	test: 8.9574726	best: 8.9572214 (122)	total: 49.8s	remaining: 5m 27s
+132:	learn: 1.8802771	test: 8.9576284	best: 8.9572214 (122)	total: 50.1s	remaining: 5m 26s
+133:	learn: 1.8801940	test: 8.9576556	best: 8.9572214 (122)	total: 50.4s	remaining: 5m 25s
+134:	learn: 1.8800759	test: 8.9576467	best: 8.9572214 (122)	total: 50.7s	remaining: 5m 24s
+135:	learn: 1.8799391	test: 8.9576976	best: 8.9572214 (122)	total: 51.1s	remaining: 5m 24s
+136:	learn: 1.8793609	test: 8.9577197	best: 8.9572214 (122)	total: 51.4s	remaining: 5m 23s
+137:	learn: 1.8790448	test: 8.9592154	best: 8.9572214 (122)	total: 51.6s	remaining: 5m 22s
+138:	learn: 1.8785808	test: 8.9588304	best: 8.9572214 (122)	total: 51.9s	remaining: 5m 21s
+139:	learn: 1.8783280	test: 8.9588188	best: 8.9572214 (122)	total: 52.3s	remaining: 5m 21s
+140:	learn: 1.8782473	test: 8.9587675	best: 8.9572214 (122)	total: 52.6s	remaining: 5m 20s
+141:	learn: 1.8778002	test: 8.9587710	best: 8.9572214 (122)	total: 52.9s	remaining: 5m 19s
+142:	learn: 1.8774486	test: 8.9587648	best: 8.9572214 (122)	total: 53.2s	remaining: 5m 18s
+143:	learn: 1.8760550	test: 8.9587268	best: 8.9572214 (122)	total: 53.5s	remaining: 5m 17s
+144:	learn: 1.8758821	test: 8.9586184	best: 8.9572214 (122)	total: 53.8s	remaining: 5m 17s
+145:	learn: 1.8737911	test: 8.9585668	best: 8.9572214 (122)	total: 54s	remaining: 5m 16s
+146:	learn: 1.8736906	test: 8.9585199	best: 8.9572214 (122)	total: 54.3s	remaining: 5m 15s
+147:	learn: 1.8732627	test: 8.9584720	best: 8.9572214 (122)	total: 54.6s	remaining: 5m 14s
+148:	learn: 1.8730862	test: 8.9584777	best: 8.9572214 (122)	total: 54.9s	remaining: 5m 13s
+149:	learn: 1.8729792	test: 8.9584955	best: 8.9572214 (122)	total: 55.2s	remaining: 5m 13s
+150:	learn: 1.8728461	test: 8.9582664	best: 8.9572214 (122)	total: 55.5s	remaining: 5m 12s
+151:	learn: 1.8726593	test: 8.9582387	best: 8.9572214 (122)	total: 55.8s	remaining: 5m 11s
+152:	learn: 1.8721132	test: 8.9582538	best: 8.9572214 (122)	total: 56.2s	remaining: 5m 10s
+153:	learn: 1.8718073	test: 8.9582630	best: 8.9572214 (122)	total: 56.5s	remaining: 5m 10s
+154:	learn: 1.8716035	test: 8.9582532	best: 8.9572214 (122)	total: 56.8s	remaining: 5m 9s
+155:	learn: 1.8652943	test: 8.9806486	best: 8.9572214 (122)	total: 57.1s	remaining: 5m 8s
+156:	learn: 1.8650829	test: 8.9806597	best: 8.9572214 (122)	total: 57.4s	remaining: 5m 8s
+157:	learn: 1.8643521	test: 8.9806976	best: 8.9572214 (122)	total: 57.7s	remaining: 5m 7s
+158:	learn: 1.8640522	test: 8.9806690	best: 8.9572214 (122)	total: 58s	remaining: 5m 6s
+159:	learn: 1.8637584	test: 8.9808988	best: 8.9572214 (122)	total: 58.4s	remaining: 5m 6s
+160:	learn: 1.8636074	test: 8.9808992	best: 8.9572214 (122)	total: 58.7s	remaining: 5m 5s
+161:	learn: 1.8635229	test: 8.9808907	best: 8.9572214 (122)	total: 59s	remaining: 5m 5s
+162:	learn: 1.8632419	test: 8.9808783	best: 8.9572214 (122)	total: 59.3s	remaining: 5m 4s
+163:	learn: 1.8630281	test: 8.9809863	best: 8.9572214 (122)	total: 59.6s	remaining: 5m 3s
+164:	learn: 1.8628420	test: 8.9808831	best: 8.9572214 (122)	total: 59.9s	remaining: 5m 2s
+165:	learn: 1.8624684	test: 8.9813405	best: 8.9572214 (122)	total: 1m	remaining: 5m 2s
+166:	learn: 1.8623708	test: 8.9815465	best: 8.9572214 (122)	total: 1m	remaining: 5m 1s
+167:	learn: 1.8621560	test: 8.9811552	best: 8.9572214 (122)	total: 1m	remaining: 5m 1s
+168:	learn: 1.8620841	test: 8.9811579	best: 8.9572214 (122)	total: 1m 1s	remaining: 5m
+169:	learn: 1.8611429	test: 8.9811388	best: 8.9572214 (122)	total: 1m 1s	remaining: 4m 59s
+170:	learn: 1.8599691	test: 8.9810791	best: 8.9572214 (122)	total: 1m 1s	remaining: 4m 59s
+171:	learn: 1.8508718	test: 8.9903760	best: 8.9572214 (122)	total: 1m 1s	remaining: 4m 58s
+172:	learn: 1.8474245	test: 8.9905854	best: 8.9572214 (122)	total: 1m 2s	remaining: 4m 57s
+Stopped by overfitting detector  (50 iterations wait)
+
+bestTest = 8.957221421
+bestIteration = 122
+
+Shrink model to first 123 iterations.
 </pre>
 </div>
 </div>
@@ -774,7 +668,7 @@ Shrink model to first 65 iterations.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>51.490495920181274</pre>
+<pre>63.07235407829285</pre>
 </div>
 
 </div>
@@ -782,16 +676,7 @@ Shrink model to first 65 iterations.
 </div>
 </div>
 
-</div>model = CatBoostRegressor(
-    task_type = task_type
-    ,loss_function='RMSE'
-    ,random_seed=42
-    ,logging_level='Info'
-    ,iterations=300
-    ,depth=5
-    ,thread_count=-1
-    ,early_stopping_rounds=50
-)
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -813,40 +698,10 @@ Shrink model to first 65 iterations.
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>item_cnt_month_lag_1: 24.096973014999396
-item_first_sale: 12.006346081698476
-item_category_id: 11.571586104046894
-date_item_avg_item_cnt_lag_1: 9.347904226652117
-date_shop_cat_avg_item_cnt_lag_1: 4.792384156230253
-month: 4.374915441564244
-subtype_code: 4.234835590645327
-item_cnt_month_lag_3: 3.9195514752137726
-item_cnt_month_lag_2: 3.157629308588907
-date_shop_avg_item_cnt_lag_1: 2.4298752525641234
-delta_price_lag: 2.344605276021997
-date_cat_avg_item_cnt_lag_1: 1.8257605079068258
-item_id: 1.789004696570604
-date_avg_item_cnt_lag_1: 1.7318593722736364
-date_item_city_avg_item_cnt_lag_1: 1.7284243808433235
-item_cnt_month_lag_6: 1.5795793795733843
-type_code: 1.3516868759138587
-date_item_avg_item_cnt_lag_2: 1.1456964671201675
-date_block_num: 1.1236301086839122
-item_shop_first_sale: 1.0011627440861472
-shop_id: 0.9794114035607472
-days: 0.8941072326132936
-city_code: 0.5249867892289879
-item_cnt_month_lag_12: 0.48348609097249273
-date_item_avg_item_cnt_lag_3: 0.4461188839180178
-date_city_avg_item_cnt_lag_1: 0.23656733032937033
-item_shop_last_sale: 0.22038310846598108
-date_item_avg_item_cnt_lag_6: 0.21213924827706782
-date_shop_avg_item_cnt_lag_12: 0.16671297835075843
-date_shop_avg_item_cnt_lag_2: 0.15176986230977238
-date_item_avg_item_cnt_lag_12: 0.04867251520890456
-date_shop_avg_item_cnt_lag_3: 0.045842758203332314
-date_shop_avg_item_cnt_lag_6: 0.03639133736393366
-item_last_sale: 0.0
+<pre>item_price: 33.16861862581194
+shop_id: 30.35006874341807
+item_id: 24.272024440825234
+date_block_num: 12.209288189944767
 </pre>
 </div>
 </div>
