@@ -141,3 +141,4 @@ checklink/cookies.txt
 
 .secrets/*
 data/
+nbs/catboost_info/

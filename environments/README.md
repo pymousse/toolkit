@@ -1,0 +1,2 @@
+This is where your environment variables are stored, such as the IP address of your cluster or host, the name of your GCP project etc.   
+Do not store clear passwords here as it will be committed to GitHub.  
